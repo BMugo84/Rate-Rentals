@@ -1,0 +1,6 @@
+{
+    "gitdoc.enabled": true,
+    "editor.autoClosingQuotes": "always",
+    "glassit.step": 15,
+    "glassit.alpha": 255
+}

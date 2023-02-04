@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key={{ bing_maps_key }}'></script>
+    <script type='text/javascript'>
+            var map;
+            function loadMapScenario() {
+                var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                    /* No need to set credentials if already passed in URL */
+                    center:     new Microsoft.Maps.Location(-0.7167954182300451, 37.14737125795548),
+                    mapTypeId:  Microsoft.Maps.MapTypeId.roads,
+                    zoom:       16
+                });
+
+                var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+                map.entities.push(pushpin);
+            }
+            window.addEventListener("load", loadMapScenario);
+
+    </script>
+
+    <div>
+        {%  for row in rows  %}
+
+            <div>
+                <div> <a href="{{ url_for('comments', rentals_id=row.id) }}">{{  row.name  }}</a> </div>
+                <div> {{  row.rooms  }} </div>
+                <div> {{  row.rent  }} </div>
+                <div> {{  row.comment_count  }} </div>
+                <div> <a href="{{ url_for('rate', rentals_id=row.id) }}">Rate</a> </div>
+            </div>
+
+        {%  endfor  %}
+    </div>
+    <div id='map-container' class='map-container'>
+        <div id='myMap'></div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add rentals
+{% endblock %}
+
+{% block main %}
+    <div>
+        <form action="/add" method="post">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus required class="form-control mx-auto w-auto" id="name" name="name" placeholder="Name of apartment" type="text">
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" id="rooms" name="rooms" placeholder="Number of rooms" type="number" min="0">
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" id="rent" name="rent" placeholder="Rent" type="number" min="0">
+            </div>
+            <div class="mb-3">
+                <input autocomplete="off" autofocus required class="form-control mx-auto w-auto" id="description" name="description" placeholder="description" type="text">
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+
+    </div>
+    <div>
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key={{ bing_maps_key }}'></script>
+        <script type='text/javascript'>
+            var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                /* No need to set credentials if already passed in URL */
+                center:     new Microsoft.Maps.Location(-0.7167954182300451, 37.14737125795548),
+                mapTypeId:  Microsoft.Maps.MapTypeId.roads,
+                zoom:       16
+            });
+            var center = map.getCenter();
+            var Events = Microsoft.Maps.Events;
+            var Location = Microsoft.Maps.Location;
+            var Pushpin = Microsoft.Maps.Pushpin({
+
+
+            });
+            var pins = [
+                new Pushpin(new Location(center.latitude, center.longitude), { color: '#f00' }),
+                new Pushpin(new Location(center.latitude, center.longitude - 0.001), { icon: '/static/map-pin.png', anchor: new Microsoft.Maps.Point(12, 39), draggable: true })
+            ];
+            map.entities.push(pins);
+            // Binding the events for the green pin
+            Events.addHandler(pins[1], 'dragend', function () {
+                var newLocation = pins[1].getLocation();
+                document.getElementById('latitude').innerHTML = 'Latitude: ' + newLocation.latitude;
+                document.getElementById('longitude').innerHTML = 'Longitude: ' + newLocation.longitude;
+                var latitude = newLocation.latitude;
+                var longitude = newLocation.longitude;
+            })
+        </script>
+        <div id='map-container' class='map-container'>
+            <div id='myMap'></div>
+        </div>
+    </div>
+{% endblock %}

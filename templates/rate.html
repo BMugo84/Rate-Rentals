@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Rental Post Rate
+{% endblock %}
+
+{% block main %}
+
+    <div>
+        <div> {{  rentals[0].name  }} </div>
+        <div> {{  rentals[0].rooms  }} </div>
+        <div> {{  rentals[0].rent  }} </div>
+
+        <div>
+            <form action="/rate/{{  rentals[0].id  }}" method="post">
+                <div class="mb-3">
+                    <label for="landlord_strictness">Landlord Strictness</label>
+                    <input class="form-control mx-auto w-auto" id="landlord_strictness" name="landlord_strictness" placeholder="landlord strictness" type="number" min="1" max="5">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control mx-auto w-auto" id="quality" name="quality" placeholder="Quality" type="number" min="1" max="5">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control mx-auto w-auto" id="size" name="size" placeholder="Size" type="number" min="1" max="5">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control mx-auto w-auto" id="security" name="security" placeholder="Security" type="number" min="1" max="5">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control mx-auto w-auto" id="rent" name="rent" placeholder="Rent" type="number" min="1" max="5">
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

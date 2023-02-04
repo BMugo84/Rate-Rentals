@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Rental Post
+{% endblock %}
+
+{% block main %}
+
+    <div>
+        <div> {{  rentals[0].name  }} </div>
+        <div> {{  rentals[0].rooms  }} </div>
+        <div> {{  rentals[0].rent  }} </div>
+
+        <div>
+            <form action="/add_comment/{{  rentals[0].id  }}" method="post">
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus required class="form-control mx-auto w-auto" id="comment" name="comment" placeholder="Share your thoughts" type="text">
+                </div>
+                <button class="btn btn-primary" type="submit">comment</button>
+            </form>
+        </div>
+
+        {%  for comment in comments  %}
+
+            <div>
+                <div> {{  comment.comment  }} </div>
+            </div>
+
+        {%  endfor  %}
+
+        <div>
+            <div>{{  ratings[0].landlord_strictness  }}</div>
+            <div>{{  ratings[0].quality  }}</div>
+            <div>{{  ratings[0].size  }}</div>
+            <div>{{  ratings[0].security  }}</div>
+            <div>{{  ratings[0].rent  }}</div>
+        </div>
+
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key={{ bing_maps_key }}'></script>
+        <script type='text/javascript'>
+                var map;
+                var latitude = {{  rentals[0].latitude|tojson|safe  }}
+                var longitude = {{  rentals[0].longitude|tojson|safe  }}
+                function loadMapScenario() {
+                    var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                        /* No need to set credentials if already passed in URL */
+                        center:     new Microsoft.Maps.Location(latitude,longitude),
+                        mapTypeId:  Microsoft.Maps.MapTypeId.roads,
+                        zoom:       16
+                    });
+
+                    var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+                    map.entities.push(pushpin);
+                }
+                window.addEventListener("load", loadMapScenario);
+
+        </script>
+        <div id='map-container' class='map-container'>
+            <div id='myMap' style='width: 100vw; height: 100vh;'></div>
+        </div>
+
+    </div>
+
+{% endblock %}
